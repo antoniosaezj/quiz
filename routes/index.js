@@ -12,8 +12,9 @@ router.get('/author', function(req, res) {
   res.render('author', { title: "Antonio's Quiz 2015" });
 });
 
-// GET Páginas de preguntas y reespuestas
-router.get('/quizes/question', quizController.question);
-router.get('/quizes/answer', quizController.answer);
+// GET Páginas de preguntas y respuestas
+router.get('/quizes', quizController.index);
+router.get('/quizes/:quizId(\\d+)', quizController.show);
+router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 
 module.exports = router;

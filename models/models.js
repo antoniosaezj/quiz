@@ -36,7 +36,11 @@ sequelize.sync().success(function() {
     if(count === 0) {
       Quiz.create({ pregunta: 'Capital de Italia',
                     respuesta: 'Roma'
-                  }).success(function(){console.log('Base de Datos inicializada.');});
-    };
-  });
-});
+                  });
+      Quiz.create({ pregunta: 'Capital de Portugal',
+                    respuesta: 'Lisboa'
+                  })
+      .then(function(){console.log('Base de Datos inicializada.');});
+    }; // fin del if(count...
+  }); // fin del Quiz.count...
+}); // fin del sequelize.sync...
