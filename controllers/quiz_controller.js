@@ -18,16 +18,20 @@ exports.index = function(req, res) {
   var busqueda = "%";  
   
   if (req.query.search !== undefined) {
-    busqueda = req.query.search.replace(/\s+/g, "%"); //"%" + req.query.search + "%";
+    busqueda = req.query.search.replace(/\s+/g, "%"); 
   
     if (busqueda !== '%') {
       busqueda = "%" + busqueda + "%";
     }
   }
 
-  models.Quiz.findAll({where: ["pregunta like ?", busqueda], order: [["pregunta", "ASC"]]}).then(function (quizes) {
-    res.render('quizes/index', { quizes: quizes, errors: []});
-  })
+  models.Quiz
+    .findAll({where: ["pregunta like ?", busqueda], order: [["pregunta", "ASC"]]})
+    .then(
+      function (quizes) {
+        res.render('quizes/index', { quizes: quizes, errors: []});
+      }
+    );
 };
 
 // GET /quizes/:id
@@ -67,6 +71,37 @@ exports.create = function(req, res) {
         } else {
           // guarda en la BD y redirecciona a /quizes
           quiz
+            .save({fields: ["pregunta","respuesta"]})
+            .then(function() {
+                               res.redirect('/quizes');
+                             }
+                 );
+        }
+      }
+    );
+};
+
+// GET /Quizes/:id/edit
+exports.edit = function(req, res) {
+  var quiz = req.quiz;
+
+  res.render('quizes/edit', {quiz: quiz, errors: []});
+};
+
+// PUT /quizes/update
+exports.update = function(req, res) {
+  req.quiz.pregunta = req.body.quiz.pregunta;
+  req.quiz.respuesta = req.body.quiz.respuesta;
+
+  req.quiz
+    .validate()
+    .then(
+      function (err) {
+        if (err) {
+          res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
+        } else {
+          // guarda en la BD y redirecciona a /quizes
+          req.quiz
             .save({fields: ["pregunta","respuesta"]})
             .then(function() {
                                res.redirect('/quizes');
