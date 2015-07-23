@@ -4,7 +4,7 @@ var quizController = require('../controllers/quiz_controller');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: "Antonio's Quiz 2015" });
+  res.render('index', { title: "Antonio's Quiz 2015", errors: [] });
 });
 
 // Autoload de comandos con :quizId
@@ -12,7 +12,7 @@ router.param('quizId', quizController.load);
 
 // GET Página de Créditos
 router.get('/author', function(req, res) {
-  res.render('author', { title: "Antonio's Quiz 2015" });
+  res.render('author', { title: "Antonio's Quiz 2015", errors: [] });
 });
 
 // GET Páginas de preguntas y respuestas
