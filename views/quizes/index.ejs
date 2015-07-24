@@ -9,9 +9,15 @@
 <div>
   <h3>Listado de preguntas</h3>
   <table>
+    <tr>
+      <th>Pregunta</th>
+      <th>Tipo</th>
+      <th colspan=2>Acciones</th>
+    </tr>
     <% var i; for (i=0; i < quizes.length; i++) { %>
       <tr>
-        <td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+        <td align='left'><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+        <td align='left'><%= quizes[i].tematica %></td>
         <td><a href="quizes/<%= quizes[i].id %>/edit"><button>Editar</button></a></td>
         <td>
           <form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
