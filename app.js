@@ -35,6 +35,13 @@ app.use(function(req, res, next) {
   }
 
   res.locals.session = req.session;
+
+  if (req.session.user && !req.session.inicio_transaccion_guardada) {
+    req.session.fechainicio = Date.now(); // Guardamos la fecha de inicio de la transacción.
+    req.session.inicio_transaccion_guardada = true;
+  }
+  console.log('Valor de req.session.fechainicio=' + req.session.fechainicio + ' inicio transacacción guardada: ' + req.session.inicio_transaccion_guardada);
+
   next();
 });
 

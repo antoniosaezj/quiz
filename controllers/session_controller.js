@@ -1,7 +1,19 @@
 // MW que comprueba si el usuario está autenticado. Si no, se redirige a la pantalla de Login
 exports.loginRequired = function(req, res, next) {
   if (req.session.user) {
-    next();
+    var fecha = Date.now();
+
+    console.log('Entro en loginRequired con fecha=' + fecha + ' y fecha de inicio de transacción=' + req.session.fechainicio);
+
+    if ((((fecha - req.session.fechainicio)/1000)/60) > 2 && req.session.inicio_transaccion_guardada) {
+      req.session.inicio_transaccion_guardada = false;
+      res.redirect("/logout");
+
+    } else {
+      req.session.fechainicio = Date.now();
+      req.session.inicio_transaccion_guardada = true;
+      next();
+    }
   } else {
     res.redirect("/login");
   }
