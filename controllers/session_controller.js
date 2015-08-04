@@ -3,7 +3,7 @@ exports.loginRequired = function(req, res, next) {
   if (req.session.user) {
     var fecha = Date.now();
 
-    console.log('Entro en loginRequired con fecha=' + fecha + ' y fecha de inicio de transacción=' + req.session.fechainicio);
+    //console.log('Entro en loginRequired con fecha=' + fecha + ' y fecha de inicio de transacción=' + req.session.fechainicio);
 
     if ((((fecha - req.session.fechainicio)/1000)/60) > 2 && req.session.inicio_transaccion_guardada) {
       req.session.inicio_transaccion_guardada = false;
